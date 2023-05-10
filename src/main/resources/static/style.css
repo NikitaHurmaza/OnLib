@@ -1,0 +1,129 @@
+body{
+    background-color: #e2f1ff;
+
+}
+
+.form-control, .btn-outline-dark{
+    width: 300px;
+margin-left: 300px;
+    margin-top: 10px;
+}
+
+.tab  {
+    width: 1000px;
+    position: absolute;
+    height: 300px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    margin-top: 250px;
+}
+.tab p {
+    display: inline-block;
+    width: calc(100% - 270px);
+    vertical-align: top;
+}
+
+.btn-primary{
+    margin-bottom: 40px;
+    margin-top: 10px;
+    background-color: #1259a2;
+}
+.btn-outline-danger{
+
+    margin-top: 50px;
+margin-left: 670px;
+}
+.btn-danger{
+    margin-bottom: 30px ;
+}
+#menu_left {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: inline-block;
+    background-color: #d4e1ff;
+    border: 1px solid ;
+}
+
+#menu_left li {
+    margin-bottom: 10px;
+}
+
+#menu_left li a {
+    display: block;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#menu_left li a:hover {
+    background-color: #ccc;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-header h1 {
+    margin: 0 0 20px 0;
+}
+
+.modal-header form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-header form input[type="text"],
+.modal-header form input[type="number"],
+.modal-header form textarea {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 16px;
+}
+
+.modal-header form input[type="file"] {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.modal-header form button[type="submit"],
+.modal-header button[type="button"] {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modal-header form button[type="submit"] {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+}
+
+.modal-header button[type="button"] {
+    background-color: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.modal-header form input[type="text"]:focus,
+.modal-header form input[type="number"]:focus,
+.modal-header form textarea:focus {
+    outline: none;
+    border: 1px solid #007bff;
+}

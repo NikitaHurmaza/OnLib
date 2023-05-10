@@ -1,0 +1,50 @@
+/* Стиль для обертки формы */
+body{
+    background-color: #e2f1ff;
+
+}
+
+form {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    width: 40%;
+}
+
+input,
+textarea {
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button {
+    background-color: #0078fa;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #0154ad;
+}
+
+label {
+    font-weight: bold;
+}
+
+textarea {
+    height: 150px;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}

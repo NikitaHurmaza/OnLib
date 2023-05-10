@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+
+    <title>OnLib</title>
+    <link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <link th:rel="stylesheet" type="text/css" th:href="style.css"></head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index">OnLib</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Books</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <div th:if="${#httpServletRequest.userPrincipal != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">Logout</a>
+                        </li>
+                    </div>
+                    <div th:if="${#httpServletRequest.userPrincipal == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/registration}">Register</a>
+                        </li>
+                    </div>
+                    <div th:if="${#httpServletRequest.userPrincipal == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/login}">Login</a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <form method="post" th:action="@{/books-by-title}">
+        <input type="text" id="titles" name="title" class="form-control" placeholder="Поиск..." aria-label="Поиск..." aria-describedby="button-addon2" required>
+       <button type="submit" class="btn btn-outline-dark " >Искать</button>
+    </form>
+<button type="button" class="btn btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" sec:authorize="hasRole('ROLE_ADMIN')" >Добавить книгу</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" >Добавить книгу</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <form th:action="@{/addBooks}" method="post" enctype="multipart/form-data">
+                    <input type="text" id="title" name="title" placeholder="Название" aria-label="Название"/>
+                    <input type="text" id="author" name="author"  placeholder="Автор" aria-label="Автор"/>
+                    <input type="text" id="publisher" name="publisher" placeholder="Издательство" aria-label="Издательство"/>
+                    <input type="text" id="genre" name="genre" placeholder="Жанр" aria-label="Жанр"/>
+                    <input type="text" id="description" name="description"  placeholder="Описание" aria-label="Описание"/>
+                    <input type="number" id="year_Of_Publication" name="year_Of_Publication" placeholder="Год" aria-label="Год"/>
+                    <input type="number" id="number_Of_Pages" name="number_Of_Pages" placeholder="Количество страниц" aria-label="Количество страниц"/>
+                    <input type="file" id="image" name="image" accept="image/*" required/>
+                    <textarea id="text" name="text" placeholder="Текст" aria-label="Текст"></textarea>
+                    <button type="submit">Add Book</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab">
+    <table id="table" class="table table-striped table-sm table-hover">
+        <tbody>
+        <tr th:each="book : ${books} ">
+            <td>
+                <img th:src="@{/book/{id}/image(id=${book.id})}" class="img-fluid" width="220" height="220" alt="Book Cover">
+                <p>
+                    <span>Название: </span><span th:text="${book.title}"></span><br>
+                    <span>Автор: </span><span th:text="${book.author}"></span><br>
+                    <span>Издательство: </span><span th:text="${book.publisher}"></span><br>
+                    <span>Жанр: </span><span th:text="${book.genre}"></span><br>
+                    <span>Год: </span><span th:text="${book.yearOfPublication }"></span><br>
+                    <span>Количество страниц: </span><span th:text="${book.numberOfPages}"></span><br>
+                    <a th:href="@{/read(id=${book.id})}" target="_blank" class="btn btn-primary">Читать онлайн</a>
+
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myconfirm"
+                       th:attr="data-bs-link=@{/deleteBook(id=${book.id})}, data-bs-text=${book.title}, data-bs-id=${book.id}" sec:authorize="hasRole('ROLE_ADMIN')">Удалить</a>
+                    <a th:href="@{/editBook(id=${book.id})}"  class="btn btn-success"  style="margin-bottom: 30px" sec:authorize="hasRole('ROLE_ADMIN')" >Редактировать</a>
+
+                <div class="opys"><span>Описание: </span><span th:text="${book.description}"></span>></div><br>
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="myconfirm" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticWarningLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticWarningLabel">Warning</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены что хотите удалить книгу?<br/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Отменить
+                </button>
+                <a class="btn btn-danger delete-button" style="margin-top: 30px">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var myConfirmModal = document.getElementById('myconfirm')
+    myConfirmModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var link = button.getAttribute('data-bs-link')
+        var tid = button.getAttribute('data-bs-id')
+        var text = button.getAttribute('data-bs-text')
+        var modalTitle = myConfirmModal.querySelector('.modal-title')
+        modalTitle.textContent = 'Удалить книгу: ' + text + '(' + tid + ')'
+        var deleteButton = myConfirmModal.querySelector('.delete-button')
+        deleteButton.setAttribute("href", link)
+    })
+</script>
+<div style="width:140px;">
+<td class="left" align="left" valign="top" width="202px">
+    <ul id="menu_left">
+
+        <li><a th:href="@{/romance-books}" title="Роман">Роман</a></li>
+        <li><a th:href="@{/detective-books}" title="Детективы">Детективы</a></li>
+        <li><a th:href="@{/fantasy-books}" title="Фэнтези">Фэнтези</a></li>
+        <li><a th:href="@{/drama-books}" title="Драма">Драма</a></li>
+        <li><a th:href="@{triller-books}" title="Триллер/Ужасы">Триллер/Ужасы</a></li>
+        <li><a th:href="@{/adventures-books}" title="Приключения">Приключения</a></li>
+        <li><a  th:href="@{/psyh-books}" title="Психология">Психология</a></li>
+        <li><a  th:href="@{/fairy-books}" title="Сказки">Сказки</a></li>
+        <li><a  th:href="@{/classic-books}" title="Классика">Классика</a></li>
+        <li><a  th:href="@{/mistik-books}" title="Мистика">Мистика</a></li>
+    </ul>
+</td>
+</div>
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+    <title>OnLib</title>
+    <link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <link th:rel="stylesheet" type="text/css" th:href="style.css"></head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index">OnLib</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Books</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <div th:if="${#httpServletRequest.userPrincipal != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">Logout</a>
+                        </li>
+                    </div>
+                    <div th:if="${#httpServletRequest.userPrincipal == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/registration}">Register</a>
+                        </li>
+                    </div>
+                    <div th:if="${#httpServletRequest.userPrincipal == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/login}">Login</a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<form method="post" th:action="@{/books-by-title}">
+    <input type="text" id="title" name="title" class="form-control" placeholder="Поиск..." aria-label="Поиск..." aria-describedby="button-addon2" required>
+    <button type="submit" class="btn btn-outline-dark " >Искать</button>
+</form>
+<div class="tab">
+    <p th:text="${bookText}"></p>
+</div>
+
+<div style="width:140px;">
+    <td class="left" align="left" valign="top" width="202px">
+        <ul id="menu_left">
+            <li><a th:href="@{/romance-books}" title="Роман">Роман</a></li>
+            <li><a th:href="@{/detective-books}" title="Детективы">Детективы</a></li>
+            <li><a th:href="@{/fantasy-books}" title="Фэнтези">Фэнтези</a></li>
+            <li><a th:href="@{/drama-books}" title="Драма">Драма</a></li>
+            <li><a th:href="@{triller-books}" title="Триллер/Ужасы">Триллер/Ужасы</a></li>
+            <li><a th:href="@{/adventures-books}" title="Приключения">Приключения</a></li>
+            <li><a  th:href="@{/psyh-books}" title="Психология">Психология</a></li>
+            <li><a  th:href="@{/fairy-books}" title="Сказки">Сказки</a></li>
+            <li><a  th:href="@{/classic-books}" title="Классика">Классика</a></li>
+            <li><a  th:href="@{/mistik-books}" title="Мистика">Мистика</a></li>
+        </ul>
+    </td>
+</div>
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
